@@ -1,5 +1,3 @@
-// TODO : make the program more effiecient and finish all of the functions 
-//
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -91,8 +89,8 @@ void print_all_comands()
 
 void Add_New_record()
 {
-    FILE *fptr = fopen("customer_data.txt", "w");
-    if (fptr == NULL)
+    FILE *fptr = fopen("customer_data.txt", "a"), *fptr1 = fopen("current_no_records.txt", "w");
+    if (fptr == NULL || fptr1 == NULL)
     {
         printf("\nError in Creating File!\n");
     }
@@ -100,7 +98,7 @@ void Add_New_record()
     printf("\nEnter the no of records you want to input: ");
     scanf("%d", &no_of_records);
     current_no_of_records += no_of_records;
-    fprintf(fptr, "%d ", no_of_records);
+    fprintf(fptr1, "%d ", no_of_records);
     if (current_no_of_records <= MAX_OF_RECORDS)
     {
         Customers = (struct Customer *)malloc(no_of_records * sizeof(struct Customer));
@@ -122,13 +120,14 @@ void Add_New_record()
 
 void print_all_data()
 {
-    FILE *fileptr = fopen("customer_data.txt", "r");
-    if (fileptr == NULL)
+    FILE *fileptr = fopen("customer_data.txt", "r"), *fptr1 = fopen("current_no_records.txt", "r");
+
+    if (fileptr == NULL || fptr1 == NULL)
     {
         printf("Error in Reading File!\n");
     }
     char name[10];
-    fscanf(fileptr, "%d", &current_no_of_records);
+    fscanf(fptr1, "%d", &current_no_of_records);
     printf("Current No of records = %d\n", current_no_of_records);
     for (int i = 0; i < current_no_of_records; i++)
     {
